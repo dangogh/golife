@@ -5,7 +5,6 @@ import (
 )
 
 type neighborCount map[Cell]int
-type S struct{}
 
 var relNeighbors Grid = Grid{
 	Cell{-1, -1}: S{}, Cell{-1, 0}: S{}, Cell{-1, 1}: S{},
@@ -19,7 +18,7 @@ func _init() {
 	for _, x := range r {
 		for _, y := range r {
 			if x != 0 || y != 0 {
-				relNeighbors[Cell{x, y}] = struct{}{}
+				relNeighbors[Cell{x, y}] = S{}
 			}
 		}
 	}

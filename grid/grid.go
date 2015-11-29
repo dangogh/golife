@@ -4,7 +4,9 @@ type Cell struct {
 	X, Y int
 }
 
-type Grid map[Cell]struct{}
+// S represents an empty struct -- just a cheap placeholder
+type S struct{}
+type Grid map[Cell]S
 
 func (g Grid) NextGen() {
 	nc := g.countNeighbors()
@@ -20,7 +22,7 @@ func (g Grid) NextGen() {
 	// only non-live still in neighbor count -- for each with 3 neighbors emerges
 	for deadcell, n := range nc {
 		if n == 3 {
-			g[deadcell] = struct{}{}
+			g[deadcell] = S{}
 		}
 	}
 }
