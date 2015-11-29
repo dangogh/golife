@@ -1,14 +1,19 @@
 package grid
 
 import (
-	_ "fmt"
+//"fmt"
 )
 
 type neighborCount map[Cell]int
+type S struct{}
 
-var relNeighbors Grid
+var relNeighbors Grid = Grid{
+	Cell{-1, -1}: S{}, Cell{-1, 0}: S{}, Cell{-1, 1}: S{},
+	Cell{0, -1}: S{}, Cell{0, 1}: S{},
+	Cell{1, -1}: S{}, Cell{1, 0}: S{}, Cell{1, 1}: S{},
+}
 
-func init() {
+func _init() {
 	r := []int{-1, 0, 1}
 	relNeighbors := make(Grid, len(r)^2-1)
 	for _, x := range r {
@@ -18,6 +23,11 @@ func init() {
 			}
 		}
 	}
+}
+
+func getRelNeighbors() Grid {
+	//fmt.Printf("relneighbors: %v\n", relNeighbors)
+	return relNeighbors
 }
 
 func (g Grid) countNeighbors() neighborCount {
