@@ -50,9 +50,9 @@ func TestBlinker(t *testing.T) {
 			Cell{3, 1}: S{},
 		},
 		Grid{
-			Cell{1, 1}: S{},
-			Cell{1, 2}: S{},
-			Cell{1, 3}: S{},
+			Cell{2, 0}: S{},
+			Cell{2, 1}: S{},
+			Cell{2, 2}: S{},
 		},
 	}
 
