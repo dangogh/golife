@@ -47,8 +47,8 @@ func TestBlinker(t *testing.T) {
 	blinker := make([]Grid, 3)
 	blinker[0] = Grid{}
 	blinker[0].AddCoords(2, 1)
-	blinker.AddCoords(2, 2)
-	blinker.AddCoords(2, 3)
+	blinker[0].AddCoords(2, 2)
+	blinker[0].AddCoords(2, 3)
 
 	stage := 0
 	g := blinker[stage]
