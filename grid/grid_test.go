@@ -8,32 +8,32 @@ func TestEmpty(t *testing.T) {
 	g := Grid{}
 	g.NextGen()
 
-	if len(g) != 0 {
+	if len(g.set) != 0 {
 		t.Error("NextGen of empty grid should be empty")
 	}
 }
 
 func TestOne(t *testing.T) {
 	g := Grid{}
-	g[Cell{0, 0}] = S{}
+	g.AddCoords(0, 0)
 
-	if len(g) != 1 {
-		t.Errorf("added one cell, but have %d", len(g))
+	if len(g.set) != 1 {
+		t.Errorf("added one cell, but have %d", len(g.set))
 	}
 
 	g.NextGen()
-	if len(g) != 0 {
-		t.Errorf("NextGen of one cell should be empty, not %d", len(g))
+	if len(g.set) != 0 {
+		t.Errorf("NextGen of one cell should be empty, not %d", len(g.set))
 	}
 
 }
 
 func gridSame(g1, g2 Grid) bool {
-	if len(g1) != len(g2) {
+	if len(g1.set) != len(g2.set) {
 		return false
 	}
-	for k1, v1 := range g1 {
-		v2, ok := g2[k1]
+	for k1, v1 := range g1.set {
+		v2, ok := g2.set[k1]
 		if !ok || v1 != v2 {
 			return false
 		}
@@ -43,18 +43,12 @@ func gridSame(g1, g2 Grid) bool {
 
 func TestBlinker(t *testing.T) {
 	// 2 stages to blinker
-	blinker := []Grid{
-		Grid{
-			Cell{1, 1}: S{},
-			Cell{2, 1}: S{},
-			Cell{3, 1}: S{},
-		},
-		Grid{
-			Cell{2, 0}: S{},
-			Cell{2, 1}: S{},
-			Cell{2, 2}: S{},
-		},
-	}
+	blinker_stages := [][]int{{2, 1}, {2, 2}, {2, 3}}
+	blinker := make([]Grid, 3)
+	blinker[0] = Grid{}
+	blinker[0].AddCoords(2, 1)
+	blinker.AddCoords(2, 2)
+	blinker.AddCoords(2, 3)
 
 	stage := 0
 	g := blinker[stage]

@@ -6,19 +6,15 @@ import (
 
 type neighborCount map[Cell]int
 
-var relNeighbors Grid = Grid{
-	Cell{-1, -1}: S{}, Cell{-1, 0}: S{}, Cell{-1, 1}: S{},
-	Cell{0, -1}: S{}, Cell{0, 1}: S{},
-	Cell{1, -1}: S{}, Cell{1, 0}: S{}, Cell{1, 1}: S{},
-}
+var relNeighbors Grid
 
-func _init() {
+func init() {
 	r := []int{-1, 0, 1}
-	relNeighbors := make(Grid, len(r)^2-1)
+	relNeighbors := new(Grid)
 	for _, x := range r {
 		for _, y := range r {
 			if x != 0 || y != 0 {
-				relNeighbors[Cell{x, y}] = S{}
+				relNeighbors.AddCoords(x, y)
 			}
 		}
 	}
@@ -31,9 +27,9 @@ func getRelNeighbors() Grid {
 
 func (g Grid) countNeighbors() neighborCount {
 	// for each cell, increment neighbor count of each of its neighbors
-	ncount := make(neighborCount, len(g)*8)
-	for c, _ := range g {
-		for n, _ := range relNeighbors {
+	ncount := make(neighborCount, len(g.set)*8)
+	for c, _ := range g.set {
+		for n, _ := range relNeighbors.set {
 			nc := Cell{c.X + n.X, c.Y + n.Y}
 			ncount[nc]++
 		}
