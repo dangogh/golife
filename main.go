@@ -6,11 +6,11 @@ import (
 )
 
 func main() {
-	g := make(grid.Grid, 5)
+	g := new(grid.Grid)
 
 	c := grid.Cell{5, 5}
+	g.AddCell(c)
 
-	g[c] = struct{}{}
 	g.NextGen()
 
 	fmt.Printf("grid is %#v\n", g)
