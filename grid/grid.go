@@ -1,12 +1,17 @@
 package grid
 
+// S represents an empty struct -- just a cheap placeholder
+type S struct{}
+
 type Cell struct {
 	X, Y int
 }
 
-// S represents an empty struct -- just a cheap placeholder
-type S struct{}
 type Grid map[Cell]S
+
+func (c Cell) OffsetBy(offset Cell) (ret Cell) {
+	return Cell{c.X+offset.X, c.Y+offset.Y}
+}
 
 func (g Grid) NextGen() {
 	nc := g.countNeighbors()
