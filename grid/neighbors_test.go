@@ -5,7 +5,6 @@ import (
 	"testing"
 )
 
-// TODO: how to guarantee init called in other file?
 func TestInit(t *testing.T) {
 	if len(getRelNeighbors()) != 8 {
 		t.Errorf("should be 8 relative neighbor entries, not %d", len(getRelNeighbors()))

@@ -12,7 +12,7 @@ var relNeighbors Grid = Grid{
 	Cell{1, -1}: S{}, Cell{1, 0}: S{}, Cell{1, 1}: S{},
 }
 
-func _init() {
+func init() {
 	r := []int{-1, 0, 1}
 	relNeighbors := make(Grid, len(r)^2-1)
 	for _, x := range r {
