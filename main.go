@@ -6,12 +6,18 @@ import (
 )
 
 func main() {
-	g := make(grid.Grid, 5)
+	g := &grid.Grid{
+		grid.Cell{4, 4}: struct{}{},
+		grid.Cell{4, 5}: struct{}{},
+		grid.Cell{4, 6}: struct{}{},
+		grid.Cell{5, 4}: struct{}{},
+		grid.Cell{5, 6}: struct{}{},
+		grid.Cell{6, 4}: struct{}{},
+		grid.Cell{6, 5}: struct{}{},
+		grid.Cell{6, 6}: struct{}{},
+	}
 
-	c := grid.Cell{5, 5}
-
-	g[c] = struct{}{}
 	g.NextGen()
 
-	fmt.Printf("grid is %#v\n", g)
+	fmt.Printf("grid is %s\n", g)
 }
