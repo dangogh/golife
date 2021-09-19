@@ -1,42 +1,25 @@
 package grid
 
-import (
-//"fmt"
-)
+func (g Grid) countNeighbors() map[Cell]int {
+	// for each cell, increment neighbor count of each of its neighbors
+	ncount := make(map[Cell]int, g.Len()*8)
 
-type neighborCount map[Cell]int
+	g.Do(func(c interface{}) {
+		c.(Cell).applyToNeighbors(func(nc Cell) {
+			ncount[nc]++
+		})
+	})
 
-var relNeighbors Grid = Grid{
-	Cell{-1, -1}: S{}, Cell{-1, 0}: S{}, Cell{-1, 1}: S{},
-	Cell{0, -1}: S{}, Cell{0, 1}: S{},
-	Cell{1, -1}: S{}, Cell{1, 0}: S{}, Cell{1, 1}: S{},
+	return ncount
 }
 
-func init() {
-	r := []int{-1, 0, 1}
-	relNeighbors := make(Grid, len(r)^2-1)
-	for _, x := range r {
-		for _, y := range r {
-			if x != 0 || y != 0 {
-				relNeighbors[Cell{x, y}] = S{}
+func (c Cell) applyToNeighbors(fn func(Cell)) {
+	for x := c.X - 1; x <= c.X+1; x++ {
+		for y := c.Y - 1; y <= c.Y+1; y++ {
+			nc := Cell{X: x, Y: y}
+			if c != nc {
+				fn(nc)
 			}
 		}
 	}
-}
-
-func getRelNeighbors() Grid {
-	//fmt.Printf("relneighbors: %v\n", relNeighbors)
-	return relNeighbors
-}
-
-func (g Grid) countNeighbors() neighborCount {
-	// for each cell, increment neighbor count of each of its neighbors
-	ncount := make(neighborCount, len(g)*8)
-	for c, _ := range g {
-		for n, _ := range relNeighbors {
-			nc := Cell{c.X + n.X, c.Y + n.Y}
-			ncount[nc]++
-		}
-	}
-	return ncount
 }

@@ -6,24 +6,23 @@ import (
 )
 
 var fixtures = [][][]Cell{
-	[][]Cell{
+	{
 		// given
-		[]Cell{Cell{0, 0}, Cell{3, 3}, Cell{2, 2}},
+		{{0, 0}, {3, 3}, {2, 2}},
 		// expect
-		[]Cell{Cell{0, 0}, Cell{2, 2}, Cell{3, 3}},
+		{{0, 0}, {2, 2}, {3, 3}},
 	},
-	[][]Cell{
+	{
 		// given
-		[]Cell{Cell{0, 2}, Cell{0, 3}, Cell{0, 1}},
+		{{0, 2}, {0, 3}, {0, 1}, {0, 2}},
 		// expect
-		[]Cell{Cell{0, 1}, Cell{0, 2}, Cell{0, 3}},
+		{{0, 1}, {0, 2}, {0, 2}, {0, 3}},
 	},
-	[][]Cell{
-
+	{
 		// given
-		[]Cell{Cell{3, 2}, Cell{0, 3}, Cell{0, 1}},
+		{{3, 2}, {0, 3}, {0, 1}},
 		// expect
-		[]Cell{Cell{0, 1}, Cell{0, 3}, Cell{3, 2}},
+		{{0, 1}, {0, 3}, {3, 2}},
 	},
 }
 
@@ -36,7 +35,7 @@ func TestSort(t *testing.T) {
 
 		for i := range expect {
 			if got[i] != expect[i] {
-				t.Errorf("Given %s, expected %s, got %s", given, expect, got)
+				t.Errorf("Given %v, expected %v, got %v", given, expect, got)
 				break
 			}
 		}

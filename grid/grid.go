@@ -1,33 +1,46 @@
 package grid
 
+import "github.com/golang-collections/collections/set"
+
 // S represents an empty struct -- just a cheap placeholder
 type S struct{}
 
+// Cell is a single live cell in the grid.
 type Cell struct {
-	X, Y int
+	X, Y int64
 }
 
-type Grid map[Cell]S
-
-func (c Cell) OffsetBy(offset Cell) (ret Cell) {
-	return Cell{c.X+offset.X, c.Y+offset.Y}
+// Grid is the collection of live cells
+type Grid struct {
+	set *set.Set
 }
 
-func (g Grid) NextGen() {
-	nc := g.countNeighbors()
-	// for each live cell, if not enough or too many neighbors, kill it
-	for livecell := range g {
-		n, ok := nc[livecell]
-		if !ok || n < 2 || n > 3 {
-			delete(g, livecell)
-		}
-		// remove from neighbor count map
-		delete(nc, livecell)
+func NewGrid(cells ...Cell) *Grid {
+	ii := make([]interface{}, len(cells))
+
+	for i, c := range cells {
+		ii[i] = c
 	}
-	// only non-live still in neighbor count -- for each with 3 neighbors emerges
-	for deadcell, n := range nc {
-		if n == 3 {
-			g[deadcell] = S{}
-		}
-	}
+
+	return &Grid{set: set.New(ii...)}
+}
+
+func (g *Grid) Insert(c Cell) {
+	g.set.Insert(c)
+}
+
+func (g *Grid) Remove(c Cell) {
+	g.set.Remove(c)
+}
+
+func (g *Grid) Do(fn func(interface{})) {
+	g.set.Do(fn)
+}
+
+func (g Grid) Len() int {
+	return g.set.Len()
+}
+
+func (g Grid) Has(c Cell) bool {
+	return g.set.Has(c)
 }

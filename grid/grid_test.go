@@ -2,67 +2,31 @@ package grid
 
 import (
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestEmpty(t *testing.T) {
-	g := Grid{}
-	g.NextGen()
+	g := NewGrid()
 
-	if len(g) != 0 {
-		t.Error("NextGen of empty grid should be empty")
-	}
+	assert.Equal(t, g.Len(), 0)
 }
 
-func TestOne(t *testing.T) {
-	g := Grid{}
-	g[Cell{0, 0}] = S{}
+func TestInsertAndRemove(t *testing.T) {
+	g := NewGrid(Cell{1, 10})
 
-	if len(g) != 1 {
-		t.Errorf("added one cell, but have %d", len(g))
-	}
+	g.Insert(Cell{0, 0})
 
-	g.NextGen()
-	if len(g) != 0 {
-		t.Errorf("NextGen of one cell should be empty, not %d", len(g))
-	}
+	assert.True(t, g.Has(Cell{0, 0}), "g.Has")
+	assert.True(t, g.Has(Cell{1, 10}), "g.Has")
+	assert.False(t, g.Has(Cell{0, 1}), "g.Has")
+	assert.Equal(t, g.Len(), 2)
 
-}
+	g.Remove(Cell{1, 10})
 
-func gridSame(g1, g2 Grid) bool {
-	if len(g1) != len(g2) {
-		return false
-	}
-	for k1, v1 := range g1 {
-		v2, ok := g2[k1]
-		if !ok || v1 != v2 {
-			return false
-		}
-	}
-	return true
-}
+	assert.True(t, g.Has(Cell{0, 0}), "g.Has")
+	assert.False(t, g.Has(Cell{1, 10}), "g.Has")
+	assert.False(t, g.Has(Cell{0, 1}), "g.Has")
+	assert.Equal(t, g.Len(), 1)
 
-func TestBlinker(t *testing.T) {
-	// 2 stages to blinker
-	blinker := []Grid{
-		Grid{
-			Cell{1, 1}: S{},
-			Cell{2, 1}: S{},
-			Cell{3, 1}: S{},
-		},
-		Grid{
-			Cell{2, 0}: S{},
-			Cell{2, 1}: S{},
-			Cell{2, 2}: S{},
-		},
-	}
-
-	stage := 0
-	g := blinker[stage]
-	for ii := 0; ii < 4; ii++ {
-		g.NextGen()
-		stage = 1 - stage
-		if !gridSame(g, blinker[stage]) {
-			t.Errorf("NextGen should be %v, not %v", blinker[stage], g)
-		}
-	}
 }
